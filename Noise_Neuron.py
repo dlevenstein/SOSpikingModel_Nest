@@ -3,10 +3,6 @@ import pylab
 
 neuron = nest.Create("iaf_neuron")
 
-nest.GetStatus(neuron, "I_e")
-nest.GetStatus(neuron, ["V_reset","V_th"])
-nest.SetStatus(neuron, {"I_e": 376.0})
-
 multimeter = nest.Create("multimeter")
 nest.SetStatus(multimeter, {"withtime": True, "record_from": ["V_m"]})
 
@@ -33,6 +29,14 @@ ts = dmm["events"]["times"]
 
 pylab.figure(1)
 pylab.plot(ts, Vms)
+pylab.show()
+
+pylab.figure(2)
+pylab.plot(ts, noise[0])
+pylab.show()
+
+pylab.figure(3)
+pylab.plot(ts, noise[1])
 pylab.show()
 
 dSD = nest.GetStatus(spikedetector, keys='events')[0]
