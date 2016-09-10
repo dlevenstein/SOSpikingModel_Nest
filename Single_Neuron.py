@@ -5,7 +5,7 @@ neuron = nest.Create("iaf_neuron")
 
 nest.GetStatus(neuron, "I_e")
 nest.GetStatus(neuron, ["V_reset","V_th"])
-nest.SetStatus(neuron, {"I_e": 200.0})
+nest.SetStatus(neuron, {"I_e": -376.0})
 
 multimeter = nest.Create("multimeter")
 nest.SetStatus(multimeter, {"withtime": True, "record_from": ["V_m"]})

@@ -6,7 +6,7 @@ neuron2 = nest.Create("iaf_neuron")
 
 nest.GetStatus(neuron1, "I_e")
 nest.GetStatus(neuron1, ["V_reset","V_th"])
-nest.SetStatus(neuron1, {"I_e": 376.0})
+nest.SetStatus(neuron1, {"I_e": 55.0})
 
 nest.GetStatus(neuron2, "I_e")
 nest.GetStatus(neuron2, ["V_reset","V_th"])
@@ -17,7 +17,7 @@ nest.SetStatus(multimeter, {"withtime": True, "record_from": ["V_m"]})
 
 spikedetector = nest.Create("spike_detector", params={"withgid": True, "withtime": True})
 
-nest.Connect(multimeter, neuron1)
+nest.Connect(multimeter, neuron2)
 nest.Connect(neuron1, neuron2, syn_spec = {"weight":20.0})
 nest.Connect(neuron2, spikedetector)
 
