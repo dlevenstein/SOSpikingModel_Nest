@@ -36,7 +36,7 @@ nest.SetStatus(multimeter_p0, {"withtime":True, "record_from":["V_m"]})
 
 nest.Connect(multimeter_p0, neuron_p0)
 
-nest.Connect(multimeter_exc, eneuron)
+nest.Connect(multimeter_exc, [eneuron[0]])
 nest.Connect(multimeter_inh, ineuron)
 
 nest.Connect([noise[0]], ineuron)
@@ -72,7 +72,7 @@ pylab.figure(2)
 pylab.plot(ts_inh, Vms_inh)
 pylab.show()
 
-nest.Simulate(1000.0)
+nest.Simulate(100.0)
 
 dmm_inh = nest.GetStatus(multimeter_p0)[0]
 Vms_inh = dmm_inh["events"]["V_m"]
