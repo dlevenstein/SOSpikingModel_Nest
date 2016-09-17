@@ -78,7 +78,7 @@ for neuron_exc in epop1:
 for neuron_inh in ipop1:
     nest.Connect([neuron_inh], spikedetector_inh)
 
-nest.Simulate(500.0)
+nest.Simulate(250.0)
 
 dmm_exc_0 = nest.GetStatus(multimeter_exc_0)[0]
 Vms_exc_0 = dmm_exc_0["events"]["V_m"]
