@@ -238,7 +238,7 @@ def _make_plot(ts, ts1, gids, neurons, hist=True, hist_binwidth=5.0,
     xlabel : str, optional
         Label for x-axis
     """
-    pylab.figure()
+    pylab.figure("General Neuron Population")
 
     if grayscale:
         color_marker = ".k"
@@ -280,6 +280,7 @@ def _make_plot(ts, ts1, gids, neurons, hist=True, hist_binwidth=5.0,
         pylab.xlabel(xlabel)
         pylab.xlim(xlim)
         pylab.axes(ax1)
+        pylab.title("Mean Spike Rate")
     else:
         plotid = pylab.plot(ts1, gids, color_marker)
         pylab.xlabel(xlabel)

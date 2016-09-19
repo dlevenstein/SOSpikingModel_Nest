@@ -116,7 +116,7 @@ def random_neuron_generator(epop, ipop, simulation_time, d, Je, Ke, Ji, Ki, inh_
 
     nest.Simulate(simulation_time)
 
-
+    pylab.figure("Inhibitatory and Excitatory Figures")
 
     dmm_exc_0 = nest.GetStatus(multimeter_exc_0)[0]
     Vms_exc_0 = dmm_exc_0["events"]["V_m"]
@@ -134,6 +134,8 @@ def random_neuron_generator(epop, ipop, simulation_time, d, Je, Ke, Ji, Ki, inh_
     pylab.plot(ts_exc_0, Vms_exc_0)
     pylab.plot(ts_exc_1, Vms_exc_1)
     pylab.plot(ts_exc_2, Vms_exc_2)
+    pylab.ylabel("Membrance Potential: mV")
+    pylab.xlabel("Time: ms")
     pylab.title("Excitatory Neurons")
 
     dmm_inh_0 = nest.GetStatus(multimeter_inh_0)[0]
@@ -152,6 +154,8 @@ def random_neuron_generator(epop, ipop, simulation_time, d, Je, Ke, Ji, Ki, inh_
     pylab.plot(ts_inh_0, Vms_inh_0)
     pylab.plot(ts_inh_1, Vms_inh_1)
     pylab.plot(ts_inh_2, Vms_inh_2)
+    pylab.ylabel("Membrance Potential: mV")
+    pylab.xlabel("Time: ms")
     pylab.title("Inhibitatory Neurons")
 
     dSD = nest.GetStatus(spikedetector_exc, keys='events')[0]
@@ -159,14 +163,16 @@ def random_neuron_generator(epop, ipop, simulation_time, d, Je, Ke, Ji, Ki, inh_
     ts = dSD["times"]
     pylab.subplot2grid((3,3),(1,0), colspan=1)
     pylab.plot(ts, evs, ".")
-    pylab.title("Excitatory Neurons")
+    pylab.ylabel("Neuron Number")
+    pylab.xlabel("Time: ms")
 
     dSD = nest.GetStatus(spikedetector_inh, keys='events')[0]
     evs = dSD["senders"]
     ts = dSD["times"]
     pylab.subplot2grid((3,3),(1,1))
     pylab.plot(ts, evs, ".")
-    pylab.title("Inhibitatory Neurons")
+    pylab.ylabel("Neuron Number")
+    pylab.xlabel("Time: ms")
 
     dmm_exc = nest.GetStatus(multimeter_exc)[0]
     Vms_exc = dmm_exc["events"]["V_m"]
@@ -174,18 +180,22 @@ def random_neuron_generator(epop, ipop, simulation_time, d, Je, Ke, Ji, Ki, inh_
 
     pylab.subplot2grid((3,3),(2,0), colspan=1)
     pylab.plot(ts_exc, Vms_exc)
-    pylab.title("Excitatory Neurons")
+    pylab.ylabel("Neuron Number")
+    pylab.xlabel("Time: ms")
 
     dmm_inh = nest.GetStatus(multimeter_inh)[0]
     Vms_inh = dmm_inh["events"]["V_m"]
     ts_inh = dmm_inh["events"]["times"]
+    pylab.ylabel("Membrance Potential: mV")
+    pylab.xlabel("Time: ms")
 
     pylab.subplot2grid((3,3),(2,1), colspan=1)
     pylab.plot(ts_inh, Vms_inh)
-    pylab.title("Inhibitatory Neurons")
+    pylab.ylabel("Membrance Potential: mV")
+    pylab.xlabel("Time: ms")
 
     pylab.subplot2grid((3,3),(0,2), rowspan=3)
-
+    pylab.title("Parameters")
     i = 0
     pylab.text(0.1, 0.95,"Inhibitatory",horizontalalignment='left',verticalalignment='center',)
     pylab.text(0.5, 0.95,"Excitatory",horizontalalignment='left',verticalalignment='center',)
@@ -228,6 +238,8 @@ def random_neuron_generator(epop, ipop, simulation_time, d, Je, Ke, Ji, Ki, inh_
 
     pylab.subplot2grid((3,3),(0,0), colspan=3)
     pylab.plot(ts_exc, Vms_exc)
+    pylab.ylabel("Membrance Potential: mV")
+    pylab.xlabel("Time: ms")
     pylab.title("Neuron Population")
 
     dSD = nest.GetStatus(spikedetector, keys='events')[0]
@@ -235,5 +247,7 @@ def random_neuron_generator(epop, ipop, simulation_time, d, Je, Ke, Ji, Ki, inh_
     ts = dSD["times"]
     pylab.subplot2grid((3,3),(1,0), colspan=3)
     pylab.plot(ts, evs, ".")
+    pylab.ylabel("Neuron Number")
+    pylab.xlabel("Time: ms")
 
     pylab.show()
