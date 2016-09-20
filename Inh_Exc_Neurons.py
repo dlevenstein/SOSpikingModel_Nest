@@ -46,7 +46,7 @@ def exc_neuron_parameters(exc_dictionary, neuron_population):
 
     return epop
 
-def random_neuron_generator(epop, ipop, simulation_time, d, Je, Ke, Ji, Ki, inh_dictionary, exc_dictionary):
+def random_neuron_generator(neuron_population, epop, ipop, simulation_time, d, Je, Ke, Ji, Ki, inh_dictionary, exc_dictionary):
 
     conn_dict_ex = {"rule": "fixed_indegree", "indegree": Ke}
     conn_dict_in = {"rule": "fixed_indegree", "indegree": Ki}
@@ -170,7 +170,7 @@ def random_neuron_generator(epop, ipop, simulation_time, d, Je, Ke, Ji, Ki, inh_
     evs = dSD["senders"]
     ts = dSD["times"]
     pylab.subplot2grid((3,3),(1,1))
-    pylab.plot(ts, evs, ".")
+    pylab.plot(ts, evs, "r.")
     pylab.ylabel("Neuron Number")
     pylab.xlabel("Time: ms")
 
@@ -229,25 +229,36 @@ def random_neuron_generator(epop, ipop, simulation_time, d, Je, Ke, Ji, Ki, inh_
     pylab.text(0.1, 0.9 - i,"Ki: " + str(Ki),horizontalalignment='left',verticalalignment='center',)
     i += 0.05
 
+    pylab.text(0.05, 0.9 - i,"dV_m/dt = - ( V_m - E_L ) / tau_m + ...",horizontalalignment='left',verticalalignment='center',)
+    i += 0.03
 
-    raster_plot_modified.from_device(spikedetector, hist=True)
+    pylab.text(0.05, 0.9 - i,"... I_syn(t) / C_m + I_e / C_m",horizontalalignment='left',verticalalignment='center',)
+    i += 0.03
 
-    dmm_exc = nest.GetStatus(multimeter_small)[0]
-    Vms_exc = dmm_exc["events"]["V_m"]
-    ts_exc = dmm_exc["events"]["times"]
+    pylab.text(0.05, 0.9 - i,"I_syn(t) = Sum[w_j alpha(t-t_j)]",horizontalalignment='left',verticalalignment='center',)
+    i += 0.03
 
-    pylab.subplot2grid((3,3),(0,0), colspan=3)
-    pylab.plot(ts_exc, Vms_exc)
+    pylab.text(0.05, 0.9 - i,"t_j in input spike times",horizontalalignment='left',verticalalignment='center',)
+    i += 0.03
+
+    pylab.text(0.05, 0.9 - i,"alpha(t) = e * t/tau_s * e^{-t/tau_s} * Heaviside(t)",horizontalalignment='left',verticalalignment='center',)
+    i += 0.03
+
+    pylab.figure("Mean Spike Rate")
+
+    raster_plot_modified.from_device(spikedetector)
+    raster_plot_modified.from_device(spikedetector_inh, hist=False, red=True)
+    raster_plot_modified.from_device(spikedetector_exc, hist=False)
+
+    pylab.figure("General Neuron Population")
+    dmm = nest.GetStatus(multimeter_small)[0]
+    Vms = dmm["events"]["V_m"]
+    ts = dmm["events"]["times"]
+    pylab.subplot()
+    pylab.plot(ts, Vms)
     pylab.ylabel("Membrance Potential: mV")
     pylab.xlabel("Time: ms")
     pylab.title("Neuron Population")
 
-    dSD = nest.GetStatus(spikedetector, keys='events')[0]
-    evs = dSD["senders"]
-    ts = dSD["times"]
-    pylab.subplot2grid((3,3),(1,0), colspan=3)
-    pylab.plot(ts, evs, ".")
-    pylab.ylabel("Neuron Number")
-    pylab.xlabel("Time: ms")
 
     pylab.show()

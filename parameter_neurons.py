@@ -10,6 +10,6 @@ Ji = -4.0
 Ki = 12
 
 neuron_population = 100
-simulation_time = 250.0
+simulation_time = 200.0
 
-Inh_Exc_Neurons.random_neuron_generator(Inh_Exc_Neurons.exc_neuron_parameters(dict_parameters_exc, neuron_population), Inh_Exc_Neurons.inh_neuron_parameters(dict_parameters_inh, neuron_population), simulation_time, d, Je, Ke, Ji, Ki, dict_parameters_inh, dict_parameters_exc)
+Inh_Exc_Neurons.random_neuron_generator(neuron_population, Inh_Exc_Neurons.exc_neuron_parameters(dict_parameters_exc, neuron_population), Inh_Exc_Neurons.inh_neuron_parameters(dict_parameters_inh, neuron_population), simulation_time, d, Je, Ke, Ji, Ki, dict_parameters_inh, dict_parameters_exc)

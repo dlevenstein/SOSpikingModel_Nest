@@ -211,7 +211,7 @@ def _from_memory(detec):
 
 
 def _make_plot(ts, ts1, gids, neurons, hist=True, hist_binwidth=5.0,
-               grayscale=False, title=None, xlabel=None):
+               red=False, title=None, xlabel=None):
     """Generic plotting routine.
 
     Constructs a raster plot along with an optional histogram (common part in
@@ -231,17 +231,17 @@ def _make_plot(ts, ts1, gids, neurons, hist=True, hist_binwidth=5.0,
         Display histogram
     hist_binwidth : float, optional
         Width of histogram bins
-    grayscale : bool, optional
-        Plot in grayscale
+    red : bool, optional
+        Plot in red
     title : str, optional
         Plot title
     xlabel : str, optional
         Label for x-axis
     """
-    pylab.figure("General Neuron Population")
+    #pylab.figure()
 
-    if grayscale:
-        color_marker = ".k"
+    if red:
+        color_marker = ".r"
         color_bar = "gray"
     else:
         color_marker = "."
@@ -280,7 +280,6 @@ def _make_plot(ts, ts1, gids, neurons, hist=True, hist_binwidth=5.0,
         pylab.xlabel(xlabel)
         pylab.xlim(xlim)
         pylab.axes(ax1)
-        pylab.title("Mean Spike Rate")
     else:
         plotid = pylab.plot(ts1, gids, color_marker)
         pylab.xlabel(xlabel)
