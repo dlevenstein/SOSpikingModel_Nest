@@ -246,9 +246,9 @@ def random_neuron_generator(neuron_population, epop, ipop, simulation_time, d, J
 
     pylab.figure("Mean Spike Rate")
 
-    raster_plot_modified.from_device(spikedetector)
-    raster_plot_modified.from_device(spikedetector_inh, hist=False, red=True)
-    raster_plot_modified.from_device(spikedetector_exc, hist=False)
+    #raster_plot_modified.from_device(spikedetector)
+    #raster_plot_modified.from_device(spikedetector_inh, hist=False, red=True)
+    #raster_plot_modified.from_device(spikedetector_exc, hist=False)
 
     pylab.figure("General Neuron Population")
     dmm = nest.GetStatus(multimeter_small)[0]

@@ -23,17 +23,18 @@ nest.Connect(neuron2, spikedetector)
 
 nest.Simulate(1000.0)
 
-dmm = nest.GetStatus(multimeter)[0]
+"""dmm = nest.GetStatus(multimeter)[0]
 Vms = dmm["events"]["V_m"]
 ts = dmm["events"]["times"]
 
 pylab.figure(1)
 pylab.plot(ts, Vms)
-pylab.show()
+pylab.show()"""
 
 dSD = nest.GetStatus(spikedetector, keys='events')[0]
 evs = dSD["senders"]
 ts = dSD["times"]
+print(ts[0],evs[0])
 pylab.figure(2)
 pylab.plot(ts, evs, ".")
 pylab.show()
