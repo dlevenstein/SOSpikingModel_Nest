@@ -1,16 +1,18 @@
 import nest
 import numpy as np
 import simplejson
-
+from sys import argv
 nest.SetKernelStatus({"local_num_threads": 8})
 
 neuron_population = 1000
-simulation_time = 10.0
+simulation_time = 2000.0
 
 I_e = 0.0
 
+open_file = open("heat_map_values_I_e_Ke.json", "r")
+mean_rate_list = simplejson.load(open_file)
+
 mean_rate_Ke = []
-mean_rate_list = []
 
 dict_parameters_exc = {"E_L": -70.0, "C_m": 250.0, "tau_m": 20.0, "t_ref": 2.0, "V_th": -55.0, "V_reset": -70.0, "tau_syn":  2.0, "I_e": I_e}
 
@@ -18,7 +20,12 @@ epop = nest.Create("iaf_neuron", neuron_population)
 for neuron in epop:
     nest.SetStatus([neuron], {"V_m": dict_parameters_exc["E_L"]+(dict_parameters_exc["V_th"]-dict_parameters_exc["E_L"])*np.random.rand()})
 
-for i in range(0,500,10):
+start = int(argv[1])
+end = int(argv[2])
+
+print(start, end)
+
+for i in range(start,end,10):
 
     I_e = float(i)
 
@@ -27,6 +34,7 @@ for i in range(0,500,10):
     Ke = 0
 
     nest.SetStatus(epop, params={"I_e": I_e})
+
     for j in range(1,21):
 
         Ke = j
@@ -54,8 +62,8 @@ for i in range(0,500,10):
             total += evs[i]
 
         mean_rate = total / (neuron_population * simulation_time)
-        print(I_e, Ke)
-        print(total, mean_rate)
+        nest.ResumeSimulation()
+
         mean_rate_Ke.append(mean_rate)
 
     mean_rate_list.append(mean_rate_Ke)
