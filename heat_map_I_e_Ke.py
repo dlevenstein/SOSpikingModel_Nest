@@ -4,8 +4,8 @@ import simplejson
 from sys import argv
 nest.SetKernelStatus({"local_num_threads": 8})
 
-neuron_population = 1000
-simulation_time = 2000.0
+neuron_population = 100
+simulation_time = 100.0
 
 I_e = 0.0
 
