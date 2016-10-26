@@ -2,30 +2,30 @@ import nest
 import numpy as np
 import simplejson
 
-open_file = open("heat_map_values.json", "r")
-mean_rate_list = simplejson.load(open_file)
+open_file = open("heat_map_values_I_e_Je.json", "r")
+rate_list = simplejson.load(open_file)
 open_file.close()
 
-from matplotlib import pyplot as PLT
-from matplotlib import cm as CM
-from matplotlib import mlab as ML
+mean_rate_I_e = []
+mean_rate_list = []
+
 import numpy as NP
 
-mean_rate_list.remove(mean_rate_list[0])
-
-x_0 = np.arange(0,500,10)
-y_0 = np.arange(0,10,0.2)
+#mean_rate_list.remove(mean_rate_list[0])
 
 x_list = []
 y_list = []
 
 for i in range(0,500,10):
-    y_list.append(i)
+    I_e = float(i)
+    x_list.append(I_e)
 
-number = 0.0
-for j in range(50):
-    number += 0.2
-    x_list.append(number)
+Je_parameters = np.arange(0,10,0.2)
+
+for j in Je_parameters:
+
+    y_list.append(j)
+
 
 import plotly.tools as tls
 tls.set_credentials_file(username='jmg1030', api_key='2c0f8cg9h4')
@@ -33,20 +33,15 @@ tls.set_credentials_file(username='jmg1030', api_key='2c0f8cg9h4')
 import plotly.plotly as py
 import plotly.graph_objs as go
 
-print(len(x_list))
-print(len(y_list))
-print(len(mean_rate_list))
-print(len(mean_rate_list[0]))
-
 data = [
     go.Heatmap(
-        z=mean_rate_list,
+        z=rate_list,
         x=x_list,
         y=y_list
     )
 ]
-layout = go.Layout(
-    title='Plot Title',
+"""layout = go.Layout(
+    title='Increasing I_e vs. Je',
     xaxis=dict(
         title='Je',
         titlefont=dict(
@@ -63,5 +58,5 @@ layout = go.Layout(
             color='#7f7f7f'
         )
     )
-)
-py.iplot(data, filename='I_e, Je, vs. Mean_Spike_Rate')
+)"""
+py.iplot(data, filename='Increasing I_e vs. Je')

@@ -1,1 +1,7 @@
-python heat_map_I_e_Je.py 510 0
+python plot_decreasing_heat_map_I_e_Je.py
+wait
+python plot_decreasing_heat_map_I_e_Ke.py
+wait
+python plot_heat_map_I_e_Je.py
+wait
+python plot_heat_map_I_e_Ke.py

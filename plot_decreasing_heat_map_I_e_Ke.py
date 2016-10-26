@@ -2,14 +2,12 @@ import nest
 import numpy as np
 import simplejson
 
-open_file = open("heat_map_values_I_e_Ke.json", "r")
+open_file = open("decreasing_heat_map_values_I_e_Ke.json", "r")
 rate_list = simplejson.load(open_file)
 open_file.close()
 
 mean_rate_I_e = []
 mean_rate_list = []
-
-print(len(rate_list), len(rate_list[0]))
 
 for i_0 in range(50):
     for i_1 in range(20):
@@ -49,7 +47,7 @@ data = [
     )
 ]
 """layout = go.Layout(
-    title='Increasing I_e vs. Ke',
+    title='Decreasing I_e vs. Ke',
     xaxis=dict(
         title='Je',
         titlefont=dict(
@@ -67,4 +65,4 @@ data = [
         )
     )
 )"""
-py.iplot(data, filename='Increasing I_e vs. Ke')
+py.iplot(data, filename='Decreasing I_e vs. Ke')

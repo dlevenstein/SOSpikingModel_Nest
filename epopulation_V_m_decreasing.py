@@ -1,12 +1,11 @@
 import nest
 import numpy as np
-import simplejson
-from sys import argv
+import pylab
 
 nest.SetKernelStatus({"local_num_threads": 8})
 
 neuron_population = 1000
-simulation_time = 1000.0
+simulation_time = 100.0
 
 I_e = 0.0
 
@@ -28,9 +27,11 @@ multimeter_V_m = []
 for neuron in epop:
     nest.SetStatus([neuron], {"V_m": dict_parameters_exc["E_L"]+(dict_parameters_exc["V_th"]-dict_parameters_exc["E_L"])*np.random.rand()})
 
+Je_parameters = np.arange(0,10,0.2)
+
 Ke = 20
 d = 1.0
-Je = float(argv[1])
+Je = 10.0
 
 conn_dict_ex = {"rule": "fixed_indegree", "indegree": Ke}
 syn_dict_ex = {"delay": d, "weight": Je}
@@ -39,12 +40,21 @@ nest.Connect(epop, epop, conn_dict_ex, syn_dict_ex)
 
 spikedetector_exc = nest.Create("spike_detector", params={"withgid": True, "withtime": True})
 
+multimeter = nest.Create("multimeter")
+
+nest.SetStatus(multimeter, {"withtime":True, "record_from":["V_m"]})
+
+nest.Connect(multimeter, [epop[0]])
+
 for neuron_exc in epop:
     nest.Connect([neuron_exc], spikedetector_exc)
 
-length = np.float64(0.0)
+multimeter_values = []
 
-for i in range(0,500,10):
+for i in range(500,0,-10):
+
+    VM_values = []
+    TS_values = []
 
     I_e = float(i)
 
@@ -52,26 +62,21 @@ for i in range(0,500,10):
 
     nest.Simulate(simulation_time)
 
-    dSD = nest.GetStatus(spikedetector_exc, keys='events')[0]
-    evs = dSD["senders"]
-    ts = dSD["times"]
-
-    total = np.subtract(float(len(evs)), length)
-
-    length = np.add(length, total)
-
-    mean_rate = np.divide(total, np.multiply(neuron_population, simulation_time))
-
-    mean_rate_Je.append(mean_rate)
-
     nest.ResumeSimulation()
 
-open_file = open("heat_map_values_I_e_Je.json", "r")
+dmm = nest.GetStatus(multimeter)[0]
+Vms = dmm["events"]["V_m"]
+ts = dmm["events"]["times"]
 
-mean_rate_list = simplejson.load(open_file)
-mean_rate_list.append(mean_rate_Je)
-open_file.close()
+print(Vms)
+print(ts)
 
-open_file = open("heat_map_values_I_e_Je.json", "w")
-simplejson.dump(mean_rate_list, open_file)
-open_file.close()
+multimeter_values.append(Vms)
+multimeter_values.append(ts)
+
+a = np.asarray(multimeter_values)
+print(a)
+np.savetxt("I_e_Je_multimeter.csv", a, delimiter=",")
+pylab.figure()
+pylab.plot(ts, Vms)
+pylab.show()

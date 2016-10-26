@@ -44,7 +44,7 @@ for neuron_exc in epop:
 
 length = np.float64(0.0)
 
-for i in range(0,500,10):
+for i in range(500,0,-10):
 
     I_e = float(i)
 
@@ -66,12 +66,12 @@ for i in range(0,500,10):
 
     nest.ResumeSimulation()
 
-open_file = open("heat_map_values_I_e_Je.json", "r")
+open_file = open("decreasing_heat_map_values_I_e_Je.json", "r")
 
 mean_rate_list = simplejson.load(open_file)
 mean_rate_list.append(mean_rate_Je)
 open_file.close()
 
-open_file = open("heat_map_values_I_e_Je.json", "w")
+open_file = open("decreasing_heat_map_values_I_e_Je.json", "w")
 simplejson.dump(mean_rate_list, open_file)
 open_file.close()
