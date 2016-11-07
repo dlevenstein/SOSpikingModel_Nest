@@ -18,7 +18,20 @@ for J_s in J_parameters_small:
 
     I_e = 0.0
 
-    dict_parameters_1 = {"E_L": -70.0, "C_m": 250.0, "tau_m": 20.0, "t_ref": 2.0, "V_th": -55.0, "V_reset": -70.0, "tau_syn":  2.0, "I_e": I_e}
+    dict_parameters_1 = {'a': 4.0,
+              'b': 80.8,
+              'V_th': -50.4,
+              'Delta_T': 2.0,
+              'I_e': 0.0,
+              'C_m': 281.0,
+              'g_L': 30.0,
+              'V_reset': -70.6,
+              'tau_w': 144.0,
+              't_ref': 5.0,
+              'V_peak': -40.0,
+              'E_L': -70.6,
+              'E_ex': 0.,
+              'E_in': -70.}
 
     epop_1 = nest.Create("iaf_neuron", neuron_population)
 
