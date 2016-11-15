@@ -13,7 +13,9 @@ I_e = 0.0
 mean_rate_Ke = []
 mean_rate_list = []
 
-dict_parameters_exc = {"E_L": -70.0, "C_m": 250.0, "tau_m": 20.0, "t_ref": 2.0, "V_th": -55.0, "V_reset": -70.0, "tau_syn":  2.0, "I_e": I_e}
+dict_parameters_exc =
+
+{"E_L": -70.0, "C_m": 250.0, "tau_m": 20.0, "t_ref": 2.0, "V_th": -55.0, "V_reset": -70.0, "tau_syn":  2.0, "I_e": I_e}
 
 epop = nest.Create("iaf_neuron", neuron_population)
 

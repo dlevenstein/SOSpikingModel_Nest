@@ -1,73 +1,79 @@
 import nest
 import numpy as np
-import simplejson
-from sys import argv
 import pylab
 
-nest.SetKernelStatus({"local_num_threads": 8})
+J_parameters = np.arange(0,100,2.0)
 
-neuron_population = 1000
-simulation_time = 1.0
+mean_rate_string_small = ""
+
+time_string = ""
+J_string = ""
+
+nest.SetKernelStatus({"local_num_threads":8})
+
+neuron_population = 100
+simulation_time = 1000.0
 
 I_e = 0.0
 
-dict_parameters_1 = {"E_L": -70.0, "C_m": 250.0, "tau_m": 20.0, "t_ref": 2.0, "V_th": -55.0, "V_reset": -70.0, "tau_syn":  2.0, "I_e": I_e}
+dict_params = {"V_peak" : 0.0
+, "V_reset" : -70.0
+, "t_ref" : 2.0
+, "g_L" : 1.0
+, "C_m" : 250.0
+, "E_ex" : 0.0
+, "E_in" : 0.0
+, "E_L" : -70.0
+, "Delta_T" : 2.0
+, "tau_w" : 1.0
+, "a" : 1.0
+, "b" : 80.5
+, "V_th" : -55.0
+#, "tau_syn_ex" : 0.2
+, "tau_syn_in" : 2.0
+, "I_e" : 500.0
+, "w": 0.0}
 
-epop_1 = nest.Create("iaf_neuron", neuron_population)
+neurons = nest.Create("aeif_cond_exp", neuron_population)
 
-nest.SetStatus(epop_1, params=dict_parameters_1)
+nest.SetStatus(neurons, params=dict_params)
 
-for neuron in epop_1:
-    nest.SetStatus([neuron], {"V_m": dict_parameters_1["E_L"]+(dict_parameters_1["V_th"]-dict_parameters_1["E_L"])*np.random.rand()})
+for neuron in neurons:
+    nest.SetStatus([neuron], {"V_m": dict_params["E_L"]+(dict_params["V_th"]-dict_params["E_L"])*np.random.rand()})
 
-Ke = 20
+spikedetector = nest.Create("spike_detector", params={"withgid": True, "withtime": True})
+
+for neuron in neurons:
+
+    nest.Connect([neuron], spikedetector)
+
+K = 5
 d = 1.0
-Je = 5.0
+J = 10.0
 
-conn_dict_1 = {"rule": "fixed_indegree", "indegree": Ke}
-syn_dict_1 = {"delay": d, "weight": Je}
+conn_dict = {"rule": "fixed_indegree", "indegree": K}
+syn_dict = {"delay": d, "weight": J}
 
-nest.Connect(epop_1, epop_1, conn_dict_1, syn_dict_1)
+nest.Connect(neurons, neurons, conn_dict, syn_dict)
 
-spikedetector_1 = nest.Create("spike_detector", params={"withgid": True, "withtime": True})
+length = np.float64(0)
 
-multimeter_exc = nest.Create("multimeter")
-nest.SetStatus(multimeter_exc, {"withtime":True, "record_from":["V_m"]})
+for I in range(500, 0, -10):
 
-for neuron_1 in epop_1:
-    nest.Connect([neuron_1], spikedetector_1)
+    I_e = float(I)
 
-nest.Connect(multimeter_exc, [epop_1[0]])
-
-length = 0
-
-for i in range(10000):
-
-    I_e = 250.0
-
-    nest.SetStatus(epop_1, params={"I_e": I_e})
+    nest.SetStatus(neurons, params={"I_e": I_e})
 
     nest.Simulate(simulation_time)
 
-    dSD = nest.GetStatus(spikedetector_1, keys='events')[0]
-    evs_1 = dSD["senders"]
-    ts_1 = dSD["times"]
-
-    V_thresh = -55.0
-
-    if len(evs_1) >= neuron_population:
-
-        length -= neuron_population
-
-        V_thresh += 10.0
-
-        nest.SetStatus(epop_1, params={"V_th": V_thresh})
-
-    length = len(evs_1)
+    dSD = nest.GetStatus(spikedetector, keys='events')[0]
+    evs = dSD["senders"]
+    ts = dSD["times"]
 
     nest.ResumeSimulation()
 
-pylab.figure("1")
-pylab.plot(ts_1, evs_1, "r.")
+print(len(ts))
 
+pylab.figure()
+pylab.plot(ts, evs, "b.")
 pylab.show()

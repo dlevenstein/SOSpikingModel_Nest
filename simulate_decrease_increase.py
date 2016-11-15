@@ -13,7 +13,7 @@ for J_s in J_parameters_small:
 
     nest.SetKernelStatus({"local_num_threads":8})
 
-    neuron_population = 1000
+    neuron_population = 100
     simulation_time = 1000.0
 
     I_e = 0.0

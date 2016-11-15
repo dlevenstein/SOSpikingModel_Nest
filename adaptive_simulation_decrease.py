@@ -1,7 +1,7 @@
 import nest
 import numpy as np
 
-J_parameters = np.arange(0,10,0.2)
+J_parameters = np.arange(0,100,0.2)
 
 mean_rate_string_small = ""
 
@@ -13,7 +13,7 @@ for J_s in J_parameters:
     nest.SetKernelStatus({"local_num_threads":8})
 
     neuron_population = 1000
-    simulation_time = 10.0
+    simulation_time = 1000.0
 
     I_e = 0.0
 

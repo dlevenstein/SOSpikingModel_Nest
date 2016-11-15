@@ -7,19 +7,19 @@ neurons = nest.Create("aeif_cond_exp", 1000)
 dict_params = {"V_peak" : 0.0
 , "V_reset" : -70.0
 , "t_ref" : 2.0
-, "g_L" : 1.0
-, "C_m" : 250.0
+, "g_L" :  30.0
+, "C_m" : 281.0
 , "E_ex" : 0.0
-, "E_in" : 0.0
+, "E_in" : -85.0
 , "E_L" : -70.0
 , "Delta_T" : 2.0
-, "tau_w" : 1.0
-, "a" : 1.0
-, "b" : 80.5
+, "tau_w" : 100.0
+, "a" : 0.0
+, "b" : 0.0
 , "V_th" : -55.0
 , "tau_syn_ex" : 0.2
 , "tau_syn_in" : 2.0
-, "I_e" : 500.0
+, "I_e" : 200.0
 , "w": 0.0}
 
 nest.SetStatus(neurons, params=dict_params)
@@ -37,7 +37,7 @@ for neuron in neurons:
 
 K = 20
 d = 1.0
-J = 50.0
+J = 0.0
 
 conn_dict = {"rule": "fixed_indegree", "indegree": K}
 syn_dict = {"delay": d, "weight": J}

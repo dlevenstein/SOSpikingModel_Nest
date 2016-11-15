@@ -146,6 +146,22 @@ transfer.compute_transfer()
 After the simulation is finished we store the data into a file for
 later analysis.
 '''
+
+import plotly.tools as tls
+tls.set_credentials_file(username='jmg1030', api_key='2c0f8cg9h4')
+
+import plotly.plotly as py
+import plotly.graph_objs as go
+
+data = [
+    go.Heatmap(
+        z=transfer.rate,
+        x=transfer.i_range,
+        y=transfer.std_range
+    )
+]
+py.iplot(data, filename='Test Small')
+
 dat = shelve.open(model+'_transfer.dat')
 dat['I_mean'] = transfer.i_range
 dat['I_std'] = transfer.std_range

@@ -1,0 +1,4 @@
+python adaptive_simulation_decrease.py
+wait
+python adaptive_simulation_increase.py
+wait
