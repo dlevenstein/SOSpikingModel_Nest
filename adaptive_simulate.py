@@ -9,6 +9,9 @@ Current_decrease = []
 
 Time = []
 
+labels = []
+
+
 dict_params = {"V_peak" : 0.0
 , "V_reset" : -70.0
 , "t_ref" : 2.0
@@ -84,6 +87,8 @@ for neuron in neurons:
 
 for I in range(500,-10,-10):
 
+    labels.append(I)
+
     Current_decrease.append(I)
 
     nest.SetStatus(neurons, params={"I_e": float(I)})
@@ -102,7 +107,6 @@ time_decrease = []
 for t_d in ts_dec:
     time_decrease.append(t_d/10.0)
 
-
 pylab.figure("Weight " + str(J))
 pylab.subplot2grid((3,3),(0,0), colspan=3)
 pylab.plot(ts_inc, evs_inc, ".")
@@ -111,15 +115,15 @@ pylab.xlim(5100,0)
 pylab.title("Increasing Current")
 pylab.xlabel("Time ms")
 pylab.ylabel("Neuron label")
-#pylab.xlim([0,5000])
+#pylab.xticks(ts_inc, labels, rotation='vertical')
 
 pylab.subplot2grid((3,3),(1,0), colspan=3)
 pylab.plot(ts_dec, evs_dec, ".")
-pylab.xlim(5200,6500)
+pylab.xlim(5100,10200)
 pylab.title("Decreasing Current")
 pylab.xlabel("Time ms")
 pylab.ylabel("Neuron label")
-#pylab.xlim([5000,10000])
+#pylab.xticks(ts_dec, labels, rotation='vertical')
 
 
 
