@@ -32,7 +32,7 @@ I_e_rate_list_increase = ""
 
 I_e_rate_list_decrease = ""
 
-for i in range(0,110,10):
+for i in range(0,110,5):
 
     neurons = nest.Create("aeif_cond_exp", 100)
 
@@ -53,18 +53,7 @@ for i in range(0,110,10):
     conn_dict = {"rule": "fixed_indegree", "indegree": K}
     syn_dict = {"delay": d, "weight": J}
 
-    nest.Connect(neurons, neurons, conn_dict, syn_dict)
-
-    Time_number = 0.0
-
-    for I in range(0,510,10):
-
-        Time_number += 100.0
-
-        Current_increase.append(I)
-
-        nest.SetStatus(neurons, params={"I_e": float(I)})
-
+    nest.Connect(neurons, neuro["
         nest.Simulate(100.0)
 
         nest.ResumeSimulation()
