@@ -1,8 +1,11 @@
 import nest
 import numpy
 import pylab
+import simplejson
 
-for b in range(0, 100, 5):
+spike_list = []
+
+for b in range(0, 105, 5):
 
     b = float(b)
 
@@ -54,7 +57,7 @@ for b in range(0, 100, 5):
 
     K = 10
     d = 1.0
-    J = 70.0
+    J = 20.0
 
     conn_dict = {"rule": "fixed_indegree", "indegree": K}
     syn_dict = {"delay": d, "weight": J}
@@ -64,9 +67,9 @@ for b in range(0, 100, 5):
     for neuron in neurons:
         nest.SetStatus([neuron], {"V_m": dict_params["E_L"]+(dict_params["V_th"]-dict_params["E_L"])*numpy.random.rand()})
 
-    nest.SetStatus(neurons, params={"I_e": 400.0})
+    nest.SetStatus(neurons, params={"I_e": 700.0})
 
-    nest.Simulate(1000.0)
+    nest.Simulate(5000.0)
 
     #nest.ResumeSimulation()
 
@@ -78,30 +81,26 @@ for b in range(0, 100, 5):
     evs = dSD["senders"]
     ts_s = dSD["times"]
 
-    dmm = nest.GetStatus(voltmeter)[0]
-    Vms = dmm["events"]["V_m"]
-    ts_v = dmm["events"]["times"]
+    average_list = []
 
+    for i in range(0, 5010, 10):
 
+        spike_number = 0
 
+        for t in ts_s:
 
+            if float(i) <= t <= float(i) + 10.0:
 
-pylab.figure("Adaptation b: " + str(b))
+                spike_number += 1.0
 
-pylab.subplot2grid((3,3),(0,0), colspan=3)
-pylab.plot(ts_v, Vms)
-pylab.xlim(0, 1000)
-pylab.xlabel("Time ms")
-pylab.ylabel("Voltage pA")
+        average_spikes = spike_number / 100.0
 
-pylab.subplot2grid((3,3),(1,0), colspan=3)
-pylab.plot(ts_s, evs, ".")
-pylab.xlim(0, 1000)
-pylab.xlabel("Time ms")
-pylab.ylabel("Neuron Label")
+        average_list.append(average_spikes)
 
-#pylab.xlim(5100, 6100)
+    spike_list.append(average_list)
 
+    nest.ResetKernel()
 
-
-pylab.show()
+open_file = open("spike_averages.json", "w")
+simplejson.dump(spike_list, open_file)
+open_file.close()
