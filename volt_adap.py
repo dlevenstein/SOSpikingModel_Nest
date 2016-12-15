@@ -2,7 +2,7 @@ import nest
 import numpy
 import pylab
 
-b = 70.0
+b = 60.0
 
 nest.SetKernelStatus({"local_num_threads":8})
 
@@ -23,7 +23,7 @@ dict_params = {"V_peak" : 0.0
 , "Delta_T" : 2.0
 , "tau_w" : 100.0
 , "a" : 0.0
-, "b" : b
+, "b" : 70.0
 , "V_th" : -55.0
 , "tau_syn_ex" : 0.2
 , "tau_syn_in" : 2.0
@@ -52,7 +52,7 @@ nest.Connect(noise, neurons)
 
 K = 10
 d = 1.0
-J = 70.0
+J = float(b)
 
 conn_dict = {"rule": "fixed_indegree", "indegree": K}
 syn_dict = {"delay": d, "weight": J}
@@ -62,9 +62,9 @@ nest.Connect(neurons, neurons, conn_dict, syn_dict)
 for neuron in neurons:
     nest.SetStatus([neuron], {"V_m": dict_params["E_L"]+(dict_params["V_th"]-dict_params["E_L"])*numpy.random.rand()})
 
-nest.SetStatus(neurons, params={"I_e": 400.0})
+nest.SetStatus(neurons, params={"I_e": float(400)})
 
-nest.Simulate(1000.0)
+nest.Simulate(5000.0)
 
 #nest.ResumeSimulation()
 
@@ -80,21 +80,40 @@ dmm = nest.GetStatus(voltmeter)[0]
 Vms = dmm["events"]["V_m"]
 ts_v = dmm["events"]["times"]
 
+average_list = []
+
+for i in range(0, 5010, 10):
+
+    spike_number = 0
+
+    for t in ts_s:
+
+        if float(i) <= t <= float(i) + 5.0:
+
+            spike_number += 1.0
+
+    average_spikes = spike_number / 100.0
+
+    average_list.append(average_spikes)
+
+#spike_list.append(average_list)
+
+nest.ResetKernel()
 
 
+nest.ResetKernel()
 
-
-pylab.figure("Adaptation b: " + str(b))
+pylab.figure("Adaptation b: " + str(400))
 
 pylab.subplot2grid((3,3),(0,0), colspan=3)
 pylab.plot(ts_v, Vms)
-pylab.xlim(0, 1000)
+#pylab.xlim(0, 5000)
 pylab.xlabel("Time ms")
 pylab.ylabel("Voltage pA")
 
 pylab.subplot2grid((3,3),(1,0), colspan=3)
 pylab.plot(ts_s, evs, ".")
-pylab.xlim(0, 1000)
+#pylab.xlim(0, 5000)
 pylab.xlabel("Time ms")
 pylab.ylabel("Neuron Label")
 

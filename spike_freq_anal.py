@@ -5,7 +5,7 @@ import simplejson
 #from gpu_class import gpuThread
 
 
-for I in range(390,510,10):
+for I in range(0,110,10):
 
     spike_list = []
 
@@ -61,7 +61,7 @@ for I in range(390,510,10):
 
         K = 10
         d = 1.0
-        J = float(b)
+        J = float(I)
 
         conn_dict = {"rule": "fixed_indegree", "indegree": K}
         syn_dict = {"delay": d, "weight": J}
@@ -71,7 +71,7 @@ for I in range(390,510,10):
         for neuron in neurons:
             nest.SetStatus([neuron], {"V_m": dict_params["E_L"]+(dict_params["V_th"]-dict_params["E_L"])*numpy.random.rand()})
 
-        nest.SetStatus(neurons, params={"I_e": float(I)})
+        nest.SetStatus(neurons, params={"I_e": float(400)})
 
         nest.Simulate(5000.0)
 
@@ -93,7 +93,7 @@ for I in range(390,510,10):
 
             for t in ts_s:
 
-                if float(i) <= t <= float(i) + 5.0:
+                if float(i) <= t < float(i) + 5.0:
 
                     spike_number += 1.0
 
@@ -127,6 +127,6 @@ for I in range(390,510,10):
     final_list.append(UP_list)
     final_list.append(DOWN_list)
 
-    open_file = open("spike_analysis_" + str(I) + ".json", "w")
+    open_file = open("spike_analysis_internal_" + str(I) + ".json", "w")
     simplejson.dump(final_list, open_file)
     open_file.close()

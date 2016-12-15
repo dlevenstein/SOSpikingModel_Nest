@@ -7,15 +7,20 @@ import math
 import scipy.stats as ss
 
 
-for I in range(390,470, 10):
+for I in range(0,110, 10):
 
-    open_file = open("spike_analysis_" + str(I) + ".json", "r")
+    open_file = open("spike_analysis_internal_" + str(I) + ".json", "r")
     final_list = simplejson.load(open_file)
 
     #print(final_list)
 
+    #DOWN_state = []
+
     UP_state = final_list[0]
     DOWN_state = final_list[1]
+    #for D in final_list[1]:
+    #    if D > 50.0:
+    #        DOWN_state.append(D)
 
     #UP_state = UP_state.sort()
     #DOWN_state = DOWN_state.sort()
@@ -35,11 +40,11 @@ for I in range(390,470, 10):
     plt.legend()"""
 
     n, bins, patches = plt.hist(UP_state, 50, lw=3, fc=(0, 0, 0, 0.5))
-    plt.xlim(0,25)
+    #plt.xlim(0,250)
     plt.xlabel("Time, ms")
-    plt.ylabel("Number of UP states that last for x ms")
+    plt.ylabel("Number of UP states that last for t ms")
 
-    plt.savefig("UP State External Current " + str(I))
+    plt.savefig("UP State Internal Current " + str(I))
 
 
 
