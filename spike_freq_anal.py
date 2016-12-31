@@ -3,6 +3,7 @@ import numpy
 import pylab
 import simplejson
 #from gpu_class import gpuThread
+import matplotlib.pyplot as plt
 
 
 for I in range(0,110,10):
@@ -127,6 +128,18 @@ for I in range(0,110,10):
     final_list.append(UP_list)
     final_list.append(DOWN_list)
 
-    open_file = open("spike_analysis_internal_" + str(I) + ".json", "w")
+
+    plt.figure("External Current " + str(I))
+    plt.title("State Analysis")
+
+    n, bins, patches = plt.hist(UP_list, 50, lw=3, fc=(0, 0, 0, 0.5))
+    #n, bins, patches = plt.hist(DOWN_list, 50, lw=3, fc=(0, 0, 0, 0.5))
+
+    plt.xlabel("Time, ms")
+    plt.ylabel("Number of UP states that last for t ms")
+
+    plt.show()
+
+    """open_file = open("spike_analysis_internal_" + str(I) + ".json", "w")
     simplejson.dump(final_list, open_file)
-    open_file.close()
+    open_file.close()"""

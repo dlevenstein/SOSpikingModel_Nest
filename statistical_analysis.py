@@ -44,7 +44,7 @@ for I in range(0,110, 10):
     plt.xlabel("Time, ms")
     plt.ylabel("Number of UP states that last for t ms")
 
-    plt.savefig("UP State Internal Current " + str(I))
+    #plt.savefig("UP State Internal Current " + str(I))
 
 
 
