@@ -2,19 +2,11 @@ import nest
 import numpy as np
 import pylab
 
-J_parameters = np.arange(0,100,2.0)
-
-mean_rate_string_small = ""
-
-time_string = ""
-J_string = ""
 
 nest.SetKernelStatus({"local_num_threads":8})
 
 neuron_population = 100
-simulation_time = 1000.0
-
-I_e = 0.0
+simulation_time = 5000.0
 
 dict_params = {"V_peak" : 0.0
 , "V_reset" : -70.0
@@ -26,8 +18,8 @@ dict_params = {"V_peak" : 0.0
 , "E_L" : -70.0
 , "Delta_T" : 2.0
 , "tau_w" : 1.0
-, "a" : 1.0
-, "b" : 80.5
+, "a" : 0.0
+, "b" : 70.0
 , "V_th" : -55.0
 #, "tau_syn_ex" : 0.2
 , "tau_syn_in" : 2.0
@@ -47,9 +39,9 @@ for neuron in neurons:
 
     nest.Connect([neuron], spikedetector)
 
-K = 5
+K = 10
 d = 1.0
-J = 10.0
+J = 70.0
 
 conn_dict = {"rule": "fixed_indegree", "indegree": K}
 syn_dict = {"delay": d, "weight": J}
@@ -58,7 +50,7 @@ nest.Connect(neurons, neurons, conn_dict, syn_dict)
 
 length = np.float64(0)
 
-for I in range(500, 0, -10):
+for I in range(500, -10, -10):
 
     I_e = float(I)
 
@@ -72,8 +64,10 @@ for I in range(500, 0, -10):
 
     nest.ResumeSimulation()
 
-print(len(ts))
-
-pylab.figure()
+pylab.figure("Spike Raster Decreasing I: " + str(I) + ", J: " + str(J))
+pylab.title("Spike Raster Decreasing I: " + str(I) + ", J: " + str(J))
 pylab.plot(ts, evs, "b.")
-pylab.show()
+pylab.xlabel("Time: ms")
+pylab.ylabel("Neuron ID")
+pylab.savefig("Spike Raster Decreasing I: " + str(I) + ", J: " + str(J) + ".png")
+plt.show()
