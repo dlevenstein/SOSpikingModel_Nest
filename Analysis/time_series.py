@@ -16,7 +16,7 @@ for I in range(500, -10, -10):
 
     for J in range(100, -10, -10):
 
-        open_file = open(str(I) + " : " + str(J) + "_times.json", "r")
+        open_file = open(str(I) + "_:_" + str(J) + "_times.json", "r")
         data = simplejson.load(open_file)
         open_file.close()
 
@@ -33,8 +33,6 @@ for I in range(500, -10, -10):
 
         up_time = 0.0
 
-        print(mean * std)
-
         for t in time_data:
             if t > mean * std:
                 DOWN.append(t)
@@ -48,7 +46,7 @@ for I in range(500, -10, -10):
                 UP.append(t_2)
                 up_time = 0.0
 
-        plt.figure("UP_State, External Current: " + str(I) + " Internal Current: " + str(J))
+        """plt.figure("UP_State, External Current: " + str(I) + " Internal Current: " + str(J))
         plt.title("State Analysis")
 
         n, bins, patches = plt.hist(UP, 50, lw=3, fc=(0, 0, 0, 0.5))
@@ -67,9 +65,9 @@ for I in range(500, -10, -10):
         plt.xlabel("Time, ms")
         plt.ylabel("Number of DOWN states that last for t ms")
 
-        plt.savefig("UP State Analysis I: " + str(I) + " J: " + str(J) + ".png")
+        plt.savefig("UP State Analysis I: " + str(I) + " J: " + str(J) + ".png")"""
 
-"""        down_m = numpy.mean(UP)
+        down_m = numpy.mean(UP)
         up_m = numpy.mean(DOWN)
         down_s = numpy.std(UP)
         up_s = numpy.std(DOWN)
@@ -116,4 +114,4 @@ open_file.close()
 
 open_file = open("DOWN_std_numerical_values.json", "w")
 simplejson.dump(DOWN_std, open_file)
-open_file.close()"""
+open_file.close()
