@@ -23,7 +23,7 @@ dict_params = {"V_peak" : 0.0
 , "Delta_T" : 2.0
 , "tau_w" : 100.0
 , "a" : 0.0
-, "b" : 70.0
+, "b" : 40.0
 , "V_th" : -55.0
 , "tau_syn_ex" : 0.2
 , "tau_syn_in" : 2.0
@@ -64,7 +64,7 @@ for neuron in neurons:
 
 nest.SetStatus(neurons, params={"I_e": float(400)})
 
-nest.Simulate(5000.0)
+nest.Simulate(1000.0)
 
 #nest.ResumeSimulation()
 
@@ -107,16 +107,21 @@ pylab.figure("Adaptation b: " + str(400))
 
 pylab.subplot2grid((3,3),(0,0), colspan=3)
 pylab.plot(ts_v, Vms)
-#pylab.xlim(0, 5000)
+pylab.xlim(0, 800)
 pylab.xlabel("Time ms")
 pylab.ylabel("Voltage pA")
+pylab.title("Membrane Potential and Spike Raster Plots")
+
 
 pylab.subplot2grid((3,3),(1,0), colspan=3)
 pylab.plot(ts_s, evs, ".")
-#pylab.xlim(0, 5000)
+pylab.xlim(0, 800)
 pylab.xlabel("Time ms")
 pylab.ylabel("Neuron Label")
+pylab.rcParams.update({'font.size': 30})
 
+
+pylab.savefig("Adaptation_Plot.png")
 #pylab.xlim(5100, 6100)
 
 

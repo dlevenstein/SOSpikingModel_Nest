@@ -2,7 +2,7 @@ import csv
 import matplotlib.pyplot as plt
 import numpy
 
-csv_file = open("weight_data_decrease.csv", "rb")
+csv_file = open("noise_data_UP.csv", "rb")
 data = csv.reader(csv_file, delimiter=",")
 
 mean_spike_list = []
@@ -23,17 +23,19 @@ analysis_list = numpy.asarray(mean_spike_list)
 #numpy.fliplr(analysis_list)
 
 
-plt.figure("Internal Weight Analysis External Decreasing")
+plt.figure("Mean Spike Rate, External Current Decrease")
 heatmap = plt.imshow(analysis_list, cmap='plasma', interpolation='nearest', aspect='auto')
 plt.xticks(range(0,60,10),range(0,600,100))
-plt.yticks(range(0,11,1),range(0,110,10))
-plt.ylabel("External Current: I (pA)")
-plt.xlabel("Internal Current: J")
+plt.yticks(range(0,60,10),range(0,600,100))
+plt.xlabel("External Current: I (pA)")
+plt.ylabel("Noise (pA)")
 cbr = plt.colorbar(heatmap)
-cbr.set_label("Mean Spike Rate (Neurons Spiking per sec)")
-plt.title("Internal Weight Analysis External Decreasing")
+cbr.set_label("Neuron Spikes per sec")
+plt.title("Mean Spike Rate, External Current Decrease")
 #plt.gca().invert_xaxis()
-plt.savefig("weight_analysis_external_decrease.png")
+plt.gca().invert_yaxis()
+plt.savefig("noise_figure.png")
 
+plt.rcParams.update({'font.size': 30})
 
 plt.show()

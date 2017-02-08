@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 import numpy
 import pylab
 
-csv_file = open("red_line_data_w_noise.csv", "rb")
+csv_file = open("red_line_data.csv", "rb")
 red_data = csv.reader(csv_file, delimiter=",")
 
-csv_file = open("blue_line_data_w_noise.csv", "rb")
+csv_file = open("blue_line_data.csv", "rb")
 blue_data = csv.reader(csv_file, delimiter=",")
 
 red_list = []
@@ -37,7 +37,14 @@ red_list = numpy.asarray(red_list)
 #blue_list = numpy.fliplr(blue_list)
 
 
-pylab.figure()
-pylab.plot(red_list, range(0,110,10))
-pylab.plot(blue_list, range(0,110,10))
+pylab.figure("Bistable Plot")
+pylab.title("Bistable Plot")
+pylab.plot(red_list, range(0,110,10), "r")
+pylab.plot(blue_list, range(0,110,10), "b")
+pylab.xlabel("External Current (pA)")
+pylab.ylabel("Synaptic Weight")
+pylab.xticks(range(0,30000,5000), range(0,600,100))
+pylab.savefig("bistable_plot.png")
+
+pylab.rcParams.update({'font.size': 30})
 pylab.show()

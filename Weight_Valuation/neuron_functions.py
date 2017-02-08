@@ -38,8 +38,6 @@ def neuron_population(I, J, b, N, time, UP=False, DOWN=False):
     for n in neurons:
         nest.Connect([n], spike_detector)
 
-    nest.Connect(voltmeter, [neurons[0]])
-    nest.Connect(noise, neurons)
 
     K = 10
     d = 1.0
@@ -58,6 +56,7 @@ def neuron_population(I, J, b, N, time, UP=False, DOWN=False):
     end_lines = []
 
     if UP==True:
+
         for i in I:
 
             nest.SetStatus(neurons, params={"I_e": float(i)})
@@ -74,11 +73,13 @@ def neuron_population(I, J, b, N, time, UP=False, DOWN=False):
 
             data_set = ts_s[(ts_s > start) & (ts_s <= end)]
 
-            firing_rate = numpy.multiply(numpy.divide(numpy.float64(len(data_set)),numpy.float64(50000.0)),numpy.float64(1000.0))
+            firing_rate = numpy.float64(numpy.multiply(numpy.divide(numpy.float64(len(data_set)),numpy.float64(50000.0)),numpy.float64(1000.0)))
             I_line.append(firing_rate)
 
         end_lines.append(numpy.float64(ts_s[0]))
+
     if DOWN==True:
+
         for i in I:
 
             nest.SetStatus(neurons, params={"I_e": float(i)})
@@ -99,4 +100,5 @@ def neuron_population(I, J, b, N, time, UP=False, DOWN=False):
             I_line.append(firing_rate)
 
         end_lines.append(numpy.float64(ts_s[-1]))
-    return I_line, end_lines
+        
+    return I_line, end_lines, ts_s, evs

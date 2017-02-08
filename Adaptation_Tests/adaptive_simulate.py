@@ -67,7 +67,7 @@ for I in range(0,510,10):
 
     nest.SetStatus(neurons, params={"I_e": float(I)})
 
-    nest.Simulate(100.0)
+    nest.Simulate(500.0)
 
     Time.append(Time_number)
 
@@ -93,7 +93,7 @@ for I in range(500,-10,-10):
 
     nest.SetStatus(neurons, params={"I_e": float(I)})
 
-    nest.Simulate(100.0)
+    nest.Simulate(500.0)
 
     nest.ResumeSimulation()
 
@@ -109,7 +109,7 @@ for t_d in ts_dec:
 
 pylab.figure("Weight " + str(J))
 pylab.subplot2grid((3,3),(0,0), colspan=3)
-pylab.plot(ts_inc, evs_inc, ".")
+pylab.plot(ts_inc, evs_inc, "r.")
 pylab.gca().invert_xaxis()
 pylab.xlim(5100,0)
 pylab.title("Increasing Current")
@@ -118,7 +118,7 @@ pylab.ylabel("Neuron label")
 #pylab.xticks(ts_inc, labels, rotation='vertical')
 
 pylab.subplot2grid((3,3),(1,0), colspan=3)
-pylab.plot(ts_dec, evs_dec, ".")
+pylab.plot(ts_dec, evs_dec, "b.")
 pylab.xlim(5100,10200)
 pylab.title("Decreasing Current")
 pylab.xlabel("Time ms")
@@ -127,10 +127,10 @@ pylab.ylabel("Neuron label")
 
 
 
-pylab.subplot2grid((3,3),(2,0), colspan=3)
-pylab.plot(Time, Current_increase)
-pylab.plot(Time, Current_decrease)
-pylab.title("Currents I_e")
+#pylab.subplot2grid((3,3),(2,0), colspan=3)
+#pylab.plot(Time, Current_increase)
+#pylab.plot(Time, Current_decrease)
+#pylab.title("Currents I_e")
 
 
 

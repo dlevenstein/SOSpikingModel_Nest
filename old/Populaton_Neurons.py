@@ -15,7 +15,7 @@ nest.Connect(multimeter, pop2)
 nest.Simulate(1000.0)
 
 dmm = nest.GetStatus(multimeter)[0]
-Vms = dmm["events"]["V_m"]
+Vms = dmm["events"]["w"]
 ts = dmm["events"]["times"]
 
 pylab.figure(1)

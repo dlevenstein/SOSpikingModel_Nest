@@ -4,7 +4,7 @@ import simplejson
 import pylab
 
 
-for J in [80]:
+for J in [50]:
 
 
     nest.SetKernelStatus({"local_num_threads":8})
@@ -28,13 +28,13 @@ for J in [80]:
     , "w": 0.0}
 
     neurons = nest.Create("aeif_cond_exp", 100)
-    noise = nest.Create("poisson_generator")
+    #noise = nest.Create("poisson_generator")
 
     voltmeter = nest.Create("voltmeter")
     nest.SetStatus(neurons, params=dict_params)
 
     #research noise modules
-    nest.SetStatus(noise, {"rate": 100.0})
+    #nest.SetStatus(noise, {"rate": 100.0})
 
     for neuron in neurons:
         nest.SetStatus([neuron], {"V_m": dict_params["E_L"]+(dict_params["V_th"]-dict_params["E_L"])*numpy.random.rand()})
@@ -44,7 +44,7 @@ for J in [80]:
     for n in neurons:
         nest.Connect([n], spike_detector)
 
-    nest.Connect(noise, neurons)
+    #nest.Connect(noise, neurons)
 
     K = 10
     d = 1.0
@@ -58,7 +58,7 @@ for J in [80]:
     for neuron in neurons:
         nest.SetStatus([neuron], {"V_m": dict_params["E_L"]+(dict_params["V_th"]-dict_params["E_L"])*numpy.random.rand()})
 
-    for I in range(500,-10,-10):
+    for I in range(600,-10,-10):
 
         nest.SetStatus(neurons, params={"I_e": float(I)})
 
@@ -77,7 +77,7 @@ for J in [80]:
     Vms.tolist()
     ts.tolist()
 
-    print(Vms, ts)
+    #print(Vms, ts)
     array_volts = []
     array_volts.append(ts)
     array_volts.append(Vms)
@@ -92,17 +92,17 @@ for J in [80]:
     #pylab.ylabel("Membrane Potential")
     #pylab.title("J: " + str(J) + "Membrane Potential, No Adaptation")
 
-    #ts_s.tolist()
-    #evs.tolist()
+    ts_s.tolist()
+    evs.tolist()
 
-    #array_spikes = []
-    #array_spikes.append(ts_s)
-    #array_spikes.append(evs)
+    array_spikes = []
+    array_spikes.append(ts_s)
+    array_spikes.append(evs)
 
     #array_spikes = numpy.asarray(array_spikes)
 
     #print(array_spikes)
-    #numpy.savetxt("No_adaptation_J_" + str(J) + "_spike_values_increasing.csv", array_spikes, delimiter=",")
+    numpy.savetxt("No_adaptation_J_" + str(J) + "_spike_values_increasing.csv", array_spikes, delimiter=",")
 
     """#send raw data
     print(len(range(19000,25000,500)), len(range(390, 500, -10)))
